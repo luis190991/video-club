@@ -3,11 +3,19 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+const expressJwt = require('express-jwt');
+const config = require('config');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const i18n = require("i18n");
 
 const app = express();
+
+i18n.configure({
+  locales: ['es', 'en'],
+  cookie: 'languaje',
+  directory: __dirname + '/locales'
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,6 +26,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(i18n.init);
+
+const jwtKey = config.get("secret.key");
+app.use(expressJwt({secret:jwtKey}).unless({path:["/login"]}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
