@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  h3= cabecera
+  table(class='table')
+    thead
+      tr
+        th Nombre
+        th Apellido
+        th 
+          a(class="btn btn-primary" href="/actors/create") Nuevo
+    tbody
+      each actor in actors.docs
+        tr
+          td #{actor.name}
+          td #{actor.lastName}
+          td 
+            a(class="btn btn-outline-info" href="#")() Editar
+            a(class="btn btn-outline-danger" href="#")() Eliminar
+  a(class="btn btn-secondary btn-sm" href='/actors/1') <<
+  if actors.hasPrevPage
+    a(class="btn btn-secondary btn-sm" href=`/actors/${actors.prevPage}`) <
+  if actors.hasNextPage
+    a(class="btn btn-secondary btn-sm" href=`/actors/${actors.nextPage}`) >
+  a(class="btn btn-secondary btn-sm" href=`/actors/${actors.totalPages}`) >>
+  
