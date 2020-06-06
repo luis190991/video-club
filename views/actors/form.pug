@@ -2,12 +2,22 @@ extends ../layout
 
 block content
   h3= cabecera
-  form(action='/actors/' method='POST')
-    div(class="form-group")
-      label(for="name") Nombre:
-      input(id="name" class="form-control" name="name")
-    div(class="form-group")
-      label(for="lastName") Apellidos:
-      input(id="lastName" class="form-control" name="lastName")
-    button(class="btn btn-primary" type="submit") Guardar
+  if actor
+    form(action=`/actors/${actor._id}?_method=PUT` method='POST')
+      div(class="form-group")
+        label(for="name") Nombre:
+        input(id="name" class="form-control" name="name" value=actor._name)
+      div(class="form-group")
+        label(for="lastName") Apellidos:
+        input(id="lastName" class="form-control" name="lastName" value=actor._lastName)
+      button(class="btn btn-primary" type="submit") Guardar
+  else
+    form(action='/actors/' method='POST')
+      div(class="form-group")
+        label(for="name") Nombre:
+        input(id="name" class="form-control" name="name")
+      div(class="form-group")
+        label(for="lastName") Apellidos:
+        input(id="lastName" class="form-control" name="lastName")
+      button(class="btn btn-primary" type="submit") Guardar
   

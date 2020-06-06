@@ -1,6 +1,8 @@
 extends ../layout
 
 block content
+  for message in flash
+    p= message.message
   h3= cabecera
   table(class='table')
     thead
@@ -15,7 +17,7 @@ block content
           td #{actor.name}
           td #{actor.lastName}
           td 
-            a(class="btn btn-outline-info" href="#")() Editar
+            a(class="btn btn-outline-info" href=`/actors/edit/${actor._id}`)() Editar
             a(class="btn btn-outline-danger" href="#")() Eliminar
   a(class="btn btn-secondary btn-sm" href='/actors/1') <<
   if actors.hasPrevPage

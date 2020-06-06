@@ -12,7 +12,6 @@ function list(req, res, next) {
   };
 
   Actor.paginate({}, options).then((actors)=>{
-    console.log(actors)
     res.render('actors/list', {
       title:"Actores en mi video club",
       cabecera:name,
@@ -40,12 +39,30 @@ function create(req, res, next) {
     _name: req.body.name,
     _lastName: req.body.lastName
   });
-  Actor.create(object).then(obj => res.redirect('/actors/'));
+  Actor.create(object).then(obj => {
+    res.flash("info", "Actor creado correctamente.");
+    res.redirect('/actors/');
+  });
+}
+
+function edit(req, res, next){
+  const id = req.params.id;
+  let name = "Edita un actor" ;
+  Actor.findOne({'_id':id})
+  .then(obj => res.render('actors/form', {
+    title:name, cabecera: name, actor:obj
+   }));
 }
 
 // modifica un elemento PUT /:id => update
 function update(req, res, next) {
-  res.render('index', { title: 'Mi app de video update' });
+  const id = req.params.id;
+  Actor.findOne({'_id':id})
+  .then((obj) =>{
+    obj._name = req.body.name;
+    obj._lastName = req.body.lastName;
+    obj.save().then(actor => res.redirect('/actors/'));
+  });
 }
 
 //elimina un elemento DELETE /:id => destroy
@@ -54,5 +71,5 @@ function destroy(req, res, next) {
 }
 
 module.exports = {
-  list, index, form, create, update, destroy
+  list, index, form, create, edit, update, destroy
 }

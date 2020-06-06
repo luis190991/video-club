@@ -9,6 +9,9 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const actorsRouter = require('./routes/actors');
 const i18n = require("i18n");
+const methodOverride= require('method-override');
+const session = require('express-session')
+const flash = require('flash');
 
 const app = express();
 
@@ -18,10 +21,19 @@ i18n.configure({
   directory: __dirname + '/locales'
 });
 
+var sess = {
+  secret: 'keyboard cat',
+  cookie: {}
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(session(sess));
+app.use(flash());
+
+app.use(methodOverride('_method'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
