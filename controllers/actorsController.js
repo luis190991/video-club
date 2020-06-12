@@ -20,6 +20,20 @@ function list(req, res, next) {
   });
 }
 
+
+function listData(req, res, next) {
+  let name = "listado de todos los actores" ;
+  let page = req.params.page? req.params.page : 1;
+  const options = {
+    page: page,
+    limit: 5
+  };
+
+  Actor.paginate({}, options).then((actors)=>{
+    res.json(actors);
+  });
+}
+
 // regrese un elemento GET /:id => index
 function index(req, res, next) {
   let object = new Actor({_name:"Leonardo", _lastName:"Di Caprio"});
@@ -71,5 +85,5 @@ function destroy(req, res, next) {
 }
 
 module.exports = {
-  list, index, form, create, edit, update, destroy
+  list, index, form, create, edit, update, destroy, listData
 }

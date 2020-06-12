@@ -7,11 +7,14 @@ router.put('/:id', actorController.update);
 
 router.get('/create', actorController.form);
 
+router.get('/list/:page?', actorController.listData);
+
 router.get('/edit/:id', actorController.edit);
 
 router.get('/index/:id', actorController.index);
 
 router.get('/:page?', actorController.list);
+
 
 router.post('/', actorController.create);
 
